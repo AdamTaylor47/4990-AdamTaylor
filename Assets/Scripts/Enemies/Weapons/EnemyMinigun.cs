@@ -1,26 +1,29 @@
 using System.Collections;
-using System.Collections.Generic;
+using Enemies.Controller;
 using UnityEngine;
 
-public class EnemyMinigun : EnemyShootScript
+namespace Enemies.Weapons
 {
-    public int minigunBullets;
-    public int minigunReloadTime;
-    public override void EnemyShoot()
+    public class EnemyMinigun : EnemyShootScript
     {
-        for (int i = 0; i <= minigunBullets; i++) 
+        public int minigunBullets;
+        public int minigunReloadTime;
+        public override void EnemyShoot()
         {
-            EnemyNextFire = Time.time + EnemyFireRate;
-            GameObject enemyActiveBullet = Instantiate(enemyBullet, enemyFirePoint.position, enemyFirePoint.rotation);
-            Rigidbody2D rb = enemyActiveBullet.GetComponent<Rigidbody2D>();
-            rb.AddForce(rb.transform.up * enemyBulletSpeed, ForceMode2D.Impulse);
+            for (int i = 0; i <= minigunBullets; i++) 
+            {
+                enemyNextFire = Time.time + enemyFireRate;
+                GameObject enemyActiveBullet = Instantiate(enemyBullet, enemyFirePoint.position, enemyFirePoint.rotation);
+                Rigidbody2D rb = enemyActiveBullet.GetComponent<Rigidbody2D>();
+                rb.AddForce(rb.transform.up * enemyBulletSpeed, ForceMode2D.Impulse);
+            }
+        
         }
-        
-    }
 
-    IEnumerator minigunReload()
-    {
+        private IEnumerator MinigunReload()
+        {
         
-        yield return new WaitForSeconds(minigunReloadTime);
+            yield return new WaitForSeconds(minigunReloadTime);
+        }
     }
 }

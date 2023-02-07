@@ -1,55 +1,69 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-public class Decision : BaseState
+namespace BossOne
 {
-    
-    private MovementSM _sm;
-
-    private float distance;
-    public GameObject player;
-    public GameObject boss;
-
-    public Decision(MovementSM stateMachine) : base("Decision", stateMachine)
+    public class Decision : BaseState
     {
-        _sm = stateMachine;
-    }
-
-
-
-    public override void Enter()
-    {
-        base.Enter();
+        private const float MakeDecisionTime = 3f;
         
+        public GameObject player;
+        public GameObject boss;
         
-    }
+        private readonly MovementSm _sm;
 
-    public override void UpdateLogic()
-    {
+        private float _distance;
 
-        player = GameObject.FindGameObjectWithTag("Player");
-        boss = GameObject.FindGameObjectWithTag("Boss");
-        distance = Vector2.Distance(boss.transform.position, player.transform.position);
-        Debug.Log("distance = " + distance);
-        if (distance < 10)
+        private float _elapsedTime;
+
+        public Decision(MovementSm stateMachine) : base("Decision", stateMachine)
         {
-            Debug.Log("Changing to state 1");
-            stateMachine.ChangeState(_sm.phaseOneState);
-            
-
-
+            _sm = stateMachine;
         }
-        else if (distance >= 10)
+
+        public override void Enter()
         {
-            Debug.Log("Changing to state 2");
-            stateMachine.ChangeState(_sm.phaseTwoState);
-            
-
+            _elapsedTime = 0;
+            Debug.Log($"Entered Decision - Need to wait {MakeDecisionTime} before changing to a phase.");
         }
-        //base.UpdateLogic();
 
+        public override void UpdateLogic()
+        {
+            _elapsedTime += Time.deltaTime;
+
+            if (_elapsedTime < MakeDecisionTime)
+            {
+                return;
+            }
+            
+            Debug.Log("Update Decision - Making new decision.");
+
+            if (player == null)
+            {
+                player = GameObject.FindGameObjectWithTag("Player");
+            }
+            if (boss == null)
+            {
+                boss = GameObject.FindGameObjectWithTag("Boss");
+            }
+
+            _distance = Vector2.Distance(boss.transform.position, player.transform.position);
+            //Debug.Log("distance = " + _distance);
+            if (_distance < 10)
+            {
+                Debug.Log("Update Decision - Changing to Phase 1.");
+                stateMachine.ChangeState(_sm.phaseOneState);
+            }
+            else if (_distance >= 10)
+            {
+                Debug.Log("Update Decision - Changing to Phase 2.");
+                stateMachine.ChangeState(_sm.phaseTwoState);
+            }
+        }
+
+        public override void Exit()
+        {
+            Debug.Log("Exited Decision - Switching to a phase.");
+        }
     }
-
 }

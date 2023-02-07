@@ -1,31 +1,52 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PhaseOne : BaseState
+namespace BossOne
 {
-    private MovementSM _sm;
-    private float _numberOfBullets;
-
-    public PhaseOne(MovementSM stateMachine) : base("PhaseOne", stateMachine)
+    public class PhaseOne : BaseState
     {
-        _sm = stateMachine;
-    }
+        private const float TimeBetweenShots = 1f;
+        
+        private readonly MovementSm _sm;
+        
+        private int _numberOfBullets;
 
-    public override void Enter()
-    {
-        base.Enter();
-        _numberOfBullets = 5f;
-        Debug.Log("Entered state 1");
+        public PhaseOne(MovementSm stateMachine) : base("PhaseOne", stateMachine)
+        {
+            _sm = stateMachine;
+        }
 
-    }
+        public override void Enter()
+        {
+            base.Enter();
+            _numberOfBullets = 5;
+            Debug.Log("Entered Phase 1.");
+        }
 
-    public override void UpdateLogic()
-    {
-        Debug.Log("Stuck in Update logic phase 1");
-        stateMachine.ChangeState(_sm.decisionState);
-        stateMachine.startTimer();
+        public override void UpdateLogic()
+        {
+            if (ElapsedTime < TimeBetweenShots)
+            {
+                Debug.Log("Update Phase 1 - Not ready to shoot.");
+                return;
+            }
+            
+            ResetElapsedTime();
 
+            _numberOfBullets--;
 
+            if (_numberOfBullets > 0)
+            {
+                Debug.Log($"Update Phase 1 - Shot, {_numberOfBullets} remaining.");
+                return;
+            }
+            
+            Debug.Log($"Update Phase 1 - Shot, no bullets remaining, switching back to make a decision.");
+            stateMachine.ChangeState(_sm.decisionState);
+        }
+
+        public override void Exit()
+        {
+            Debug.Log("Exit Phase 1 - Switching to make a decision.");
+        }
     }
 }

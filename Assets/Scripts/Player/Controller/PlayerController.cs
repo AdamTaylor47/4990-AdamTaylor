@@ -1,33 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Serialization;
 
-public class PlayerController : MonoBehaviour
+namespace Player.Controller
 {
-    public int currentHealth = 0;
-    public int maxHealth = 10;
-    public Rigidbody2D playerRB;
-
-    public HealthBar healthbar;
-
-    private void Start()
+    public class PlayerController : MonoBehaviour
     {
-        currentHealth = maxHealth;
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("EnemyBullet")) 
+        public int currentHealth = 0;
+        public int maxHealth = 10;
+        [FormerlySerializedAs("playerRB")] public Rigidbody2D playerRb;
+
+        public HealthBar healthbar;
+
+        private void Start()
         {
-            currentHealth -= 1;
+            currentHealth = maxHealth;
         }
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (collision.gameObject.CompareTag("EnemyBullet")) 
+            {
+                currentHealth -= 1;
+            }
+        }
+
+        public void DamagePlayer(int damage) 
+        {
+            currentHealth -= damage;
+            healthbar.SetHealth(currentHealth);
+        }
+
+
     }
-
-    public void damagePlayer(int damage) 
-    {
-        currentHealth -= damage;
-        healthbar.SetHealth(currentHealth);
-    }
-
-
 }

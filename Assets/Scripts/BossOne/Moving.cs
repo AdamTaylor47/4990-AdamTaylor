@@ -1,36 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Moving : BaseState
+namespace BossOne
 {
-    private MovementSM _sm;
-    private float _horizontalInput;
-
-    public Moving(MovementSM stateMachine) : base("Moving", stateMachine)
+    public class Moving : BaseState
     {
-        _sm = stateMachine;
-    }
+        private readonly MovementSm _sm;
+        private float _horizontalInput;
 
-    public override void Enter()
-    {
-        base.Enter();
-        _horizontalInput = 0f;
-    }
+        public Moving(MovementSm stateMachine) : base("Moving", stateMachine)
+        {
+            _sm = stateMachine;
+        }
 
-    public override void UpdateLogic()
-    {
-        base.UpdateLogic();
-        _horizontalInput = Input.GetAxis("Horizontal");
-        if (Mathf.Abs(_horizontalInput) < Mathf.Epsilon)
-            stateMachine.ChangeState(_sm.idleState);
-    }
+        public override void Enter()
+        {
+            base.Enter();
+            _horizontalInput = 0f;
+        }
 
-    public override void UpdatePhysics()
-    {
-        base.UpdatePhysics();
-        Vector2 vel = _sm.rigidbody.velocity;
-        vel.x = _horizontalInput * _sm.speed;
-        _sm.rigidbody.velocity = vel;
+        public override void UpdateLogic()
+        {
+            base.UpdateLogic();
+            _horizontalInput = Input.GetAxis("Horizontal");
+            if (Mathf.Abs(_horizontalInput) < Mathf.Epsilon)
+                stateMachine.ChangeState(_sm.idleState);
+        }
+
+        public override void UpdatePhysics()
+        {
+            base.UpdatePhysics();
+            Vector2 vel = _sm.rb.velocity;
+            vel.x = _horizontalInput * _sm.speed;
+            _sm.rb.velocity = vel;
+        }
     }
 }

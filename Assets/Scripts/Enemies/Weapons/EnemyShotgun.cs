@@ -1,22 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
+using Enemies.Controller;
 using UnityEngine;
 
-public class EnemyShotgun : EnemyShootScript
+namespace Enemies.Weapons
 {
-
-    public int numberOfShotgunBullets;
-    public float maxSpread;
-
-    public override void EnemyShoot()
+    public class EnemyShotgun : EnemyShootScript
     {
-        EnemyNextFire = Time.time + EnemyFireRate;
-        for (int i = 0; i < numberOfShotgunBullets; i++) 
+
+        public int numberOfShotgunBullets;
+        public float maxSpread;
+
+        public override void EnemyShoot()
         {
-            GameObject EnemyActiveBullet = Instantiate(enemyBullet, enemyFirePoint.position, enemyFirePoint.rotation);
-            Rigidbody2D rb = EnemyActiveBullet.GetComponent<Rigidbody2D>();
-            rb.transform.Rotate(0, 0, Random.Range(maxSpread, -maxSpread));
-            rb.AddForce(rb.transform.up * enemyBulletSpeed, ForceMode2D.Impulse);
+            enemyNextFire = Time.time + enemyFireRate;
+            for (int i = 0; i < numberOfShotgunBullets; i++) 
+            {
+                GameObject enemyActiveBullet = Instantiate(enemyBullet, enemyFirePoint.position, enemyFirePoint.rotation);
+                Rigidbody2D rb = enemyActiveBullet.GetComponent<Rigidbody2D>();
+                rb.transform.Rotate(0, 0, Random.Range(maxSpread, -maxSpread));
+                rb.AddForce(rb.transform.up * enemyBulletSpeed, ForceMode2D.Impulse);
+            }
         }
     }
 }

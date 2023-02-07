@@ -1,31 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Health : MonoBehaviour
+namespace Player.Controller
 {
-    public int curHealth = 0;
-    public int maxHealth = 100;
-
-    public HealthBar healthBar;
-
-    void Start()
+    public class Health : MonoBehaviour
     {
-        curHealth = maxHealth;
-    }
+        public int curHealth = 0;
+        public int maxHealth = 100;
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
+        public HealthBar healthBar;
+
+        private void Start()
         {
-            DamagePlayer(10);
+            curHealth = maxHealth;
         }
-    }
 
-    public void DamagePlayer(int damage)
-    {
-        curHealth -= damage;
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                DamagePlayer(10);
+            }
+        }
 
-        healthBar.SetHealth(curHealth);
+        public void DamagePlayer(int damage)
+        {
+            curHealth -= damage;
+
+            healthBar.SetHealth(curHealth);
+        }
     }
 }

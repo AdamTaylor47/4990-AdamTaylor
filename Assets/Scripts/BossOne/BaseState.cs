@@ -1,21 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseState
+namespace BossOne
 {
-    public string name;
-    protected StateMachine stateMachine;
-
-
-    public BaseState(string name, StateMachine stateMachine)
+    public class BaseState
     {
-        this.name = name;
-        this.stateMachine = stateMachine;
-    }
+        public readonly string name;
+        protected readonly StateMachine stateMachine;
+        
+        public float ElapsedTime { get; private set; }
 
-    public virtual void Enter() { }
-    public virtual void UpdateLogic() { }
-    public virtual void UpdatePhysics() { }
-    public virtual void Exit() { }
+        public BaseState(string name, StateMachine stateMachine)
+        {
+            this.name = name;
+            this.stateMachine = stateMachine;
+        }
+
+        public void TickElapsedTime()
+        {
+            ElapsedTime += Time.deltaTime;
+        }
+
+        public void ResetElapsedTime()
+        {
+            ElapsedTime = 0;
+        }
+
+        public virtual void Enter() { }
+        public virtual void UpdateLogic() { }
+        public virtual void UpdatePhysics() { }
+        public virtual void Exit() { }
+    }
 }

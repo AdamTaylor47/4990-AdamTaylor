@@ -1,58 +1,53 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class StateMachine : MonoBehaviour
+namespace BossOne
 {
-    BaseState currentState;
-
-
-    void Start()
+    public class StateMachine : MonoBehaviour
     {
-        currentState = GetInitialState();
-        if (currentState != null)
-            currentState.Enter();
-    }
+        private BaseState _currentState;
 
-    void Update()
-    {
-        if (currentState != null)
-            currentState.UpdateLogic();
-    }
+        private void Start()
+        {
+            _currentState = GetInitialState();
+            _currentState?.Enter();
+        }
 
-    void LateUpdate()
-    {
-        if (currentState != null)
-            currentState.UpdatePhysics();
-    }
+        private void Update()
+        {
+            if (_currentState == null)
+            {
+                return;
+            }
+            
+            // Every tick increase the time value for a state so time-based decisions can be performed.
+            _currentState.TickElapsedTime();
+            _currentState.UpdateLogic();
+        }
 
-    public void ChangeState(BaseState newState)
-    {
+        // You had this as LateUpdate but shouldn't it be FixedUpdate if its just physics?
+        private void FixedUpdate()
+        {
+            _currentState?.UpdatePhysics();
+        }
+
+        public void ChangeState(BaseState newState)
+        {
+            _currentState.Exit();
+            _currentState = newState;
+            _currentState.Enter();
+            // Ensure the new state starts at 0 elapsed time.
+            _currentState.ResetElapsedTime();
+        }
+
+        protected virtual BaseState GetInitialState()
+        {
+            return null;
+        }
         
-        currentState.Exit();
-        currentState = newState;
-        StartCoroutine(phaseTimer());
-        currentState.Enter();
-        //currentState.UpdateLogic();
-    }
-
-    protected virtual BaseState GetInitialState()
-    {
-        return null;
-    }
-
-    IEnumerator phaseTimer() 
-    {
-        yield return new WaitForSecondsRealtime(5);
-    }
-
-    public void startTimer() 
-    {
-        StartCoroutine(phaseTimer());
-    }
-    private void OnGUI()
-    {
-        string content = currentState != null ? currentState.name : "(no current state)";
-        GUILayout.Label($"<color='black'><size=40>{content}</size></color>");
+        private void OnGUI()
+        {
+            string content = _currentState != null ? _currentState.name : "(no current state)";
+            GUILayout.Label($"<color='black'><size=40>{content}</size></color>");
+        }
     }
 }

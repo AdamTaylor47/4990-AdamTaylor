@@ -1,15 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBullet : MonoBehaviour
+namespace Enemies.Weapons
 {
-    private void Start()
+    public class EnemyBullet : MonoBehaviour
     {
-        Destroy(this.gameObject, 7);
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Destroy(this.gameObject);
+        private void Start()
+        {
+            Destroy(this.gameObject, 7);
+        }
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

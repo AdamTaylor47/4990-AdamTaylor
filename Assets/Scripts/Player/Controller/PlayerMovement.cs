@@ -1,33 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+namespace Player.Controller
 {
-    public float movementSpeed = 5f;
-
-    public Rigidbody2D rb;
-    public Camera cam;
-
-
-    Vector2 movement;
-    Vector2 mouse;
-
-    void Update()
+    public class PlayerMovement : MonoBehaviour
     {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
+        public float movementSpeed = 5f;
 
-        mouse = cam.ScreenToWorldPoint(Input.mousePosition);
+        public Rigidbody2D rb;
+        public Camera cam;
+
+
+        private Vector2 _movement;
+        private Vector2 _mouse;
+
+        private void Update()
+        {
+            _movement.x = Input.GetAxisRaw("Horizontal");
+            _movement.y = Input.GetAxisRaw("Vertical");
+
+            _mouse = cam.ScreenToWorldPoint(Input.mousePosition);
         
-    }
+        }
 
-    private void FixedUpdate()
-    {
-        rb.MovePosition(rb.position + movement * movementSpeed * Time.fixedDeltaTime);
+        private void FixedUpdate()
+        {
+            rb.MovePosition(rb.position + _movement * movementSpeed * Time.fixedDeltaTime);
 
-        Vector2 direction = mouse - rb.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
-        rb.rotation = angle;
+            Vector2 direction = _mouse - rb.position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
+            rb.rotation = angle;
+        }
     }
 }
