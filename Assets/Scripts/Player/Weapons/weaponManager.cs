@@ -1,17 +1,22 @@
+using Mono.Cecil;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class weaponManager : MonoBehaviour
 {
 
 
-    int numberOfWeapons = 1;
+    public int numberOfWeapons = 1;
     public int activeGunIndex;
 
     public GameObject[] guns;
     public GameObject gunHolder;
     public GameObject activeGun;
+    
+
+    
 
 
     // Start is called before the first frame update
@@ -19,11 +24,13 @@ public class weaponManager : MonoBehaviour
     {
         numberOfWeapons = gunHolder.transform.childCount;
         guns = new GameObject[numberOfWeapons];
+        
 
         for (int i = 0; i < numberOfWeapons; i++) 
         {
             guns[i] = gunHolder.transform.GetChild(i).gameObject;
             guns[i].SetActive(false);
+            
         }
 
         guns[0].SetActive(true);

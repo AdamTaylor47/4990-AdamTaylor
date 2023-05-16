@@ -1,60 +1,55 @@
-<<<<<<< Updated upstream
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PhaseOne : BaseState
-=======
-using System.Runtime.CompilerServices;
-using UnityEngine;
-
 namespace Bosses
->>>>>>> Stashed changes
 {
-    private MovementSM _sm;
-    private float _numberOfBullets;
+public class PhaseOne : BaseState{
 
-    public PhaseOne(MovementSM stateMachine) : base("PhaseOne", stateMachine)
-    {
-<<<<<<< Updated upstream
-        _sm = stateMachine;
-    }
-
-    public override void Enter()
-    {
-        base.Enter();
-        _numberOfBullets = 5f;
-        Debug.Log("Entered state 1");
-
-    }
-
-    public override void UpdateLogic()
-    {
-        Debug.Log("Stuck in Update logic phase 1");
-        stateMachine.ChangeState(_sm.decisionState);
-        stateMachine.startTimer();
-
-
-=======
         private readonly BossOneSm _sm;
-        public PhaseOne(BossOneSm stateMachine) : base("PhaseOne", stateMachine)
-        {
-            _sm = stateMachine;
-        }
 
         private int _numberOfActions;
         private int numberOfBullets;
         public float distanceBetweenBullets;
         private float x = 0;
         private float y = 0;
-        public float bulletSpeed = 5f;
-        private const float TimeBetweenShots = 0.2f;
+        public float bulletSpeed = 10f;
+        private const float TimeBetweenShots = 0.3f;
+
+        public Walkable bossControllerMovement;
+        public GameObject player;
+        public GameObject boss;
+
+        public PhaseOne(BossOneSm stateMachine) : base("PhaseOne", stateMachine)
+        {
+            _sm = stateMachine;
+        }
+
+
+
 
         public override void Enter()
         {
             base.Enter();
-            _numberOfActions = 20;
+            if (player == null)
+            {
+                player = GameObject.FindGameObjectWithTag("Player");
+            }
+            if (boss == null)
+            {
+                boss = GameObject.FindGameObjectWithTag("Boss");
+            }
+            
+            _numberOfActions = 15;
             Debug.Log("Entered Phase 1.");
+
+
+            //hhave boss stop while firing
+            bossControllerMovement = boss.GetComponent<Walkable>();
+            bossControllerMovement.speed = 0f;
+            bossControllerMovement.force = 10f;
+
         }
 
         public override void UpdateLogic()
@@ -84,13 +79,15 @@ namespace Bosses
 
         public override void Exit()
         {
+            bossControllerMovement.speed = 5f;
+            bossControllerMovement.force = 5f;
             Debug.Log("Exit Phase 1 - Switching to make a decision.");
         }
 
         public override void BossShootRing()
         {
             base.BossShootRing();
-            numberOfBullets = 10;
+            numberOfBullets = 8;
             
 
             distanceBetweenBullets = 360 / numberOfBullets;
@@ -103,14 +100,14 @@ namespace Bosses
                 rb.AddForce(rb.transform.up * _sm.bulletSpeed, ForceMode2D.Impulse);
 
             }
-            x += 10;
+            x += 8;
 
 
         }
         public override void BossShootRingReverse()
         {
             base.BossShootRingReverse();
-            numberOfBullets = 10;
+            numberOfBullets = 8;
             
 
 
@@ -124,10 +121,9 @@ namespace Bosses
                 rb.AddForce(rb.transform.up * _sm.bulletSpeed, ForceMode2D.Impulse);
 
             }
-            y -= 10;
+            y -= 8;
 
 
         }
->>>>>>> Stashed changes
     }
 }
