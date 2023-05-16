@@ -7,6 +7,12 @@ TagManager:
   - EnemyBullet
   - Boss
   - PlayerBullet
+  - Wall
+  - Floor
+  - Trigger
+  - Enemy
+  - ShortWall
+  - Spawn
   layers:
   - Default
   - TransparentFX
@@ -20,7 +26,7 @@ TagManager:
   - Bullet
   - EnemyBullet
   - Enemy
-  - 
+  - ShortWalls
   - 
   - 
   - 
@@ -49,4 +55,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 2693815117
+    locked: 0
+  - name: UI
+    uniqueID: 3899513169
     locked: 0

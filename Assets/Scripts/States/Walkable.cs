@@ -21,7 +21,7 @@ public class Walkable : MonoBehaviour
 
     public void Stop()
     {
-        MoveTo(Vector2.zero);
+        rb.AddForce(Vector3.zero);
     }
 
     private void FixedUpdate()

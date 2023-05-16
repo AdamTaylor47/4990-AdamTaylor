@@ -5,16 +5,16 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
 
-    public Transform player;
+    public GameObject player;
     public Camera cam;
 
     private void Awake()
     {
-        
+        player = GameObject.FindGameObjectWithTag("Player");
     }
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(player.position.x, player.position.y, -10);
+        transform.position = new Vector3(player.transform.position.x, player.transform.position.y, -10);
     }
 }

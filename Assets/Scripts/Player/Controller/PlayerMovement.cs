@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        cam = Camera.main;
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 

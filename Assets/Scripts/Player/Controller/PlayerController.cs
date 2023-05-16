@@ -1,71 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-<<<<<<< Updated upstream
-=======
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
->>>>>>> Stashed changes
 using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public int currentHealth = 0;
-    public int maxHealth = 10;
-    public Rigidbody2D playerRB;
 
-    public HealthBar healthbar;
+    public float currentHealth = 10f;
+    public float maxHealth = 10f;
+    public Image healthBar;
+        
 
-    private void Start()
+    [FormerlySerializedAs("playerRB")] public Rigidbody2D playerRb;
+
+
+
+    private void Awake()
     {
-<<<<<<< Updated upstream
-        currentHealth = maxHealth;
-=======
-        public float currentHealth = 0f;
-        public float maxHealth = 10f;
-        public Image healthBar;
-        
+        DontDestroyOnLoad(this);
+    }
+    private void Update()
+    {
+        healthBar.fillAmount = Mathf.Clamp(currentHealth / maxHealth, 0, 1f);
 
-        [FormerlySerializedAs("playerRB")] public Rigidbody2D playerRb;
-
-        
-
-        private void Start()
+        if (currentHealth <= 0) 
+        {
+            Destroy(GameObject.FindGameObjectWithTag("Player"));
+            SceneManager.LoadScene("Lobby");
+        }
+        if(currentHealth > maxHealth) 
         {
             currentHealth = maxHealth;
         }
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.gameObject.CompareTag("EnemyBullet")) 
-            {
-                TakeDamage();
-            }
-        }
-
-        public void TakeDamage() 
-        {
-            currentHealth -= 1;
-            healthBar.fillAmount = Mathf.Clamp(currentHealth / maxHealth, 0, 1f);
-            
-        }
-
-        
-
-
->>>>>>> Stashed changes
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnLevelWasLoaded(int level)
+    {
+        transform.position = new Vector3(25, 5, 0);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("EnemyBullet")) 
         {
-            currentHealth -= 1;
+            TakeDamage();
         }
     }
 
-    public void damagePlayer(int damage) 
+    public void TakeDamage() 
     {
-        currentHealth -= damage;
-        healthbar.SetHealth(currentHealth);
+        currentHealth -= 1;
+        
+            
     }
-
-
+    
 }
+
+

@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1601152179
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 803839090413977716}
   m_Layer: 11
   m_Name: CircleShotEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -194,7 +194,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1601152179
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: -2413806693520163455, guid: 3823259504423f4498f145c25825f86a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -255,10 +255,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc4e14d282e0c71448bed20a8a60a0e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 1
+  movementSpeed: 2
   desiredDistance: 6
   player: {fileID: 0}
   rb: {fileID: 5431561132267670579}
+  agroRange: 0
+  tilemap: {fileID: 0}
 --- !u!114 &5431561132267670580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,11 +273,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1b68adc2554eec4d9f5826700f09ad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyFireRate: 3
-  enemyNextFire: 0
+  EnemyFireRate: 1
+  EnemyNextFire: 0
   enemyFirePoint: {fileID: 5431561130649206851}
   enemyBullet: {fileID: 1079571097602083581, guid: e30e2ce96e32d8b45b9db85a9a2cea04, type: 3}
   enemyBulletSpeed: 7
+  player: {fileID: 0}
   numberOfBullets: 12
   distanceBetweenBullets: 0
 --- !u!114 &803839090413977716

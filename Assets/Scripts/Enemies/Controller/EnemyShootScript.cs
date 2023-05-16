@@ -12,18 +12,17 @@ public class EnemyShootScript : MonoBehaviour
     public GameObject enemyBullet;
 
     public float enemyBulletSpeed = 10f;
+    public GameObject player;
 
-
-    // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
-
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Time.time > EnemyNextFire)
+        float agroRange = Vector3.Distance(player.transform.position, transform.position);
+        if (Time.time > EnemyNextFire && agroRange < 18)
         {
             EnemyShoot();
             EnemyFireDelay();
